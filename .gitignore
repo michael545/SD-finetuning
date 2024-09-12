@@ -5,7 +5,10 @@ __pycache__/
 
 # C extensions
 *.so
-
+# inference files
+*.safetensors
+*.png
+*.jpg
 # Distribution / packaging
 .Python
 build/
