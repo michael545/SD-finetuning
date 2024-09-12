@@ -21,7 +21,7 @@ def setup():
         print(result.stderr.decode('utf-8'))
 
 def main():
-    #setup() # glej ce je nalozeno
+    #setup() # cep poganjas prvic odkomentiraj, da se ti vse namesti
 
     # pazi ce je ze importano
     from PIL import Image
