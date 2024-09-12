@@ -9,13 +9,12 @@ import argparse
 from datetime import datetime
 from PIL import Image
 
-url = "http://127.0.0.1:7862"
+url = "http://127.0.0.1:7862" # spremeni na svoj url :7862 ce je 1 instance odprt
 imgWidth = 512
 imgHeight = 512
 restoreFaces = "true"
 
-# If modelList is empty, the script will pull a list of models and run ALL of them
-# Model list with optional keywords for each model
+#ce je empty so vsi modeli, ki so v folderju models
 modelList = []
 
 ##################################################
@@ -34,21 +33,21 @@ parser.add_argument('-D', '--denoise', default='0.7', help='De-noising strength'
 parser.add_argument('-c', '--cfg', default='7', help='Config Scale')
 args = parser.parse_args()
 
-# Load prompt
+# nalozi prompt
 if args.prompt == '':
     with open(r"prompt.txt", "r") as fileHandle:
         prompt = fileHandle.read()
 else:
     prompt = args.prompt
 
-# Load negative prompt
+# - prompt
 if args.negative_prompt == '':
     with open(r"prompt_neg.txt", "r") as fileHandle:
         prompt_neg = fileHandle.read()
 else:
     prompt_neg = args.negative_prompt
 
-# Set seed
+# nastavi seed
 if int(args.seed) == -1:
     seedNum = random.randrange(sys.maxsize)
 else:
@@ -62,8 +61,8 @@ if len(modelList) == 0:
         modelList.append({"model": _model['title'], "keywords": ""})
 
 ##################################################
-# Generate images via API calls
-##################################################
+# API calli
+
 def pr(msg):
     _time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"[{_time}] {msg}")
@@ -73,7 +72,7 @@ for _model in modelList:
     modelName = _model['model']
     modelKeywords = _model['keywords']
 
-    # Set model in the API
+    # nastvai model cez API
     option_payload = {
         "sd_model_checkpoint": modelName,
         "CLIP_stop_at_last_layers": 2
@@ -81,7 +80,7 @@ for _model in modelList:
     pr(f"Switching to model: {modelName}")
     response = requests.post(url=f'{url}/sdapi/v1/options', json=option_payload)
 
-    # Payload for generating images
+    # Payload za generiracijo slik
     payload = {
         "prompt": prompt + ", " + modelKeywords,
         "negative_prompt": prompt_neg,
@@ -104,7 +103,7 @@ for _model in modelList:
         pr("Error: Not a valid JSON response")
         sys.exit(1)
 
-    # Save images to corresponding model-named folder
+    # shrani v folder poimenovan po modelu
     model_folder = modelName.replace("\\", "_").replace("/", "_")
     if not os.path.exists(model_folder):
         os.makedirs(model_folder)
