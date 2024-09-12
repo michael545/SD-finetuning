@@ -61,7 +61,7 @@ from IPython.display import clear_output, display
 from PIL import Image
 from tqdm import tqdm
 
-folder_path = "/content/my_images" #@param {type:"string"}
+folder_path = "/slike/training_set" #@param {type:"string"}
 prompt_mode = 'best' #@param ["best","fast","classic","negative"]
 output_mode = 'rename' #@param ["desc.csv","rename"]
 max_filename_len = 128 #@param {type:"integer"}
