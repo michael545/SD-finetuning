@@ -3,6 +3,7 @@ import sys
 import os
 import yaml
 
+
 def setup():
     install_cmds = [
         [sys.executable, '-m', 'pip', 'install', '--upgrade', 'pip'],
@@ -74,11 +75,16 @@ def main():
     files = [f for f in os.listdir(source_folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif'))]
 
     for file in tqdm(files, desc='Renaming and moving images'):
+        print(f"Procesiram sliko: {file}")
         image_path = os.path.join(source_folder, file)
         image = Image.open(image_path).convert('RGB')
+        print("slika odprta in convertana RGB")
         
         prompt = image_to_prompt(image, ci)
+        print(f"Prompt generiran: {prompt}")
+        
         new_name = sanitize_for_filename(prompt, max_filename_len)
+        print(f"Sanitized ime datoteke: {new_name}")
         
         ext = os.path.splitext(file)[1]
         new_filename = f"{new_name}{ext}"
@@ -90,8 +96,9 @@ def main():
         
         new_path = os.path.join(destination_folder, new_filename)
         os.rename(image_path, new_path)
+        print(f"preimenovano in premaknjeno v: {new_path}")
 
-    print(f"\npreimenoval in premaknil  {len(files)} slik v  {destination_folder}")
+    print(f"\nPreimenoval in premaknil {len(files)} slik v {destination_folder}")
 
 
 
