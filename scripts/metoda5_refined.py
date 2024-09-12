@@ -56,6 +56,7 @@ def main():
     print(f"Destination Folder: {destination_folder}")
     print(f"Max Filename Length: {max_filename_len}")
 
+    config_file = None
 
 
     config = Config()
@@ -91,6 +92,8 @@ def main():
         os.rename(image_path, new_path)
 
     print(f"\npreimenoval in premaknil  {len(files)} slik v  {destination_folder}")
+
+
 
 if __name__ == "__main__":
     main()
