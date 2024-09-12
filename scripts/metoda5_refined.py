@@ -29,8 +29,8 @@ def main():
         image = image.convert('RGB')
         return ci.interrogate(image)
 
-    caption_model_name = 'blip-large'
-    clip_model_name = 'ViT-H-14/laion2b_s32b_b79k'
+    caption_model_name = 'blip-large' #@param ["blip-base", "blip-large", "git-large-coco"]
+    clip_model_name = 'ViT-H-14/laion2b_s32b_b79k' #@param ["ViT-L-14/openai", "ViT-H-14/laion2b_s32b_b79k"]
 
     config = Config()
     config.clip_model_name = clip_model_name
@@ -47,7 +47,7 @@ def main():
 
     files = [f for f in os.listdir(source_folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif'))]
 
-    for file in tqdm(files, desc='Renaming and moving images'):
+    for file in tqdm(files, desc='Renaming and relocating'):
         image_path = os.path.join(source_folder, file)
         image = Image.open(image_path).convert('RGB')
         
