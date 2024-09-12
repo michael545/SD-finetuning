@@ -3,9 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+
+# prarm files for the scripts [yaml, json]
+*.yaml
 # C extensions
 *.so
 # inference files
+
 *.safetensors
 *.png
 *.jpg
