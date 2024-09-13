@@ -9,7 +9,7 @@ import argparse
 from datetime import datetime
 from PIL import Image
 
-url = "http://127.0.0.1:7862" # spremeni na svoj url :7862 ce je 1 instance odprt
+url = "http://127.0.0.1:7860" # spremeni na svoj url :7862 ce je 1 instance odprt
 imgWidth = 512
 imgHeight = 512
 restoreFaces = "true"
@@ -17,9 +17,7 @@ restoreFaces = "true"
 #ce je empty so vsi modeli, ki so v folderju models
 modelList = []
 
-##################################################
-# CLI arguments / defaults
-##################################################
+# CLI argumenti / default vrednosti
 parser = argparse.ArgumentParser(
     prog='model_sampler.py',
     description='Generate batches of stable diffusion outputs for multiple models to easily compare the same prompt')
@@ -53,21 +51,20 @@ if int(args.seed) == -1:
 else:
     seedNum = int(args.seed)
 
-# Populate model list dynamically if not provided
+# Populate model list dynamically if modelList empty
 if len(modelList) == 0:
     response = requests.get(url=f'{url}/sdapi/v1/sd-models')
     print(response)
     for _model in response.json():
         modelList.append({"model": _model['title'], "keywords": ""})
 
-##################################################
-# API calli
-
 def pr(msg):
     _time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"[{_time}] {msg}")
 
+
 startTime = datetime.now()
+
 for _model in modelList:
     modelName = _model['model']
     modelKeywords = _model['keywords']
