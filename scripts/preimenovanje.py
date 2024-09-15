@@ -1,8 +1,8 @@
 import os
 import shutil
 
-source_folder = r"C:\Users\micha\Documents\a_work_sazu\učni podatki vse varianta julij 24"
-destination_folder = r"C:\Users\micha\Documents\a_work_sazu\preimenovani_ucni_podatki" # mapa za dodatne podmape za vsak pristop
+source_folder = r"dodaj_mapo" # mapa z originalnimi slikami
+destination_folder = r"dodaj_mapo" # mapa za dodatne podmape za vsak pristop
 
 approaches = [
     "1_no_captions",
