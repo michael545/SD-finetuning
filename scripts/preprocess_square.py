@@ -28,4 +28,4 @@ def process_images(folder_name, text_prompt, token_name, resolution):
             txt_file.write(txt_content)
 
 # Example usage
-process_images("SELO_ROTUNDA surove\\ucni podatki", "", "rtsl", 512)
+process_images(r"SELO_ROTUNDA surove\ucni podatki", "", "almnak", 512)

@@ -1,0 +1,9 @@
+https://github.com/d8ahazard/sd_dreambooth_extension/wiki/ELI5-Training
+
+https://medium.com/jarvislabs-ai/guide-for-finetuning-stablediffusion-with-your-images-fc6856c0c2a7
+
+
+https://civitai.com/models/4384/dreamshaper
+
+https://followfoxai.substack.com/p/impact-of-image-caption-on-style
+

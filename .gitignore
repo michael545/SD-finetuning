@@ -13,6 +13,7 @@ __pycache__/
 *.safetensors
 *.png
 *.jpg
+*.jpeg
 # Distribution / packaging
 .Python
 build/
