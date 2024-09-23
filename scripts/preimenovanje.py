@@ -1,8 +1,8 @@
 import os
 import shutil
 
-source_folder = r"dodaj_mapo" # mapa z originalnimi slikami
-destination_folder = r"dodaj_mapo" # mapa za dodatne podmape za vsak pristop
+source_folder = R"C:\Users\umzg\Documents\Projektil\Almanach\test" # mapa z originalnimi slikami
+destination_folder = R"C:\Users\umzg\Documents\Projektil\clip_generated" # mapa za dodatne podmape za vsak pristop #mapa kamor se shranijo preimenovane slike
 
 approaches = [
     "1_no_captions",
@@ -31,5 +31,7 @@ for idx, image in enumerate(images, start=1):
     rename_and_move(image, 1, f"bnha_{idx}{ext}")  #  bnha_X
 
     rename_and_move(image, 2, f"art by bnha_{idx}{ext}")  # Rename as "art by bnha_X"
+
     rename_and_move(image, 3, f"{file_name}, art by bnha_{idx}{ext}")  # Short descriptive caption + "art by bnha"
+    
     rename_and_move(image, 4, f"art by bnha_{idx}, {file_name}{ext}")  # "Art by bnha" + 

@@ -2,6 +2,9 @@ import subprocess
 import sys
 import os
 import yaml
+import torch
+import shutil
+print(torch.cuda.is_available())
 
 
 def setup():
@@ -21,8 +24,17 @@ def setup():
         print(result.stdout.decode('utf-8'))
         print(result.stderr.decode('utf-8'))
 
+
+def rename_and_move(image, new_name, source_folder, destination_folder):
+    src = os.path.join(source_folder, image)
+    dest = os.path.join(destination_folder, new_name)
+    if not os.path.exists(dest):
+        os.makedirs(dest)
+
+    shutil.copy(src, dest)  
+
 def main():
-    #setup() # cep poganjas prvic odkomentiraj, da se ti vse namesti
+    #setup() # cep poganjas prvic odkomentiraj, da se ti vse namesti, odvisno od interpreterja, ki ga izberes
 
     # pazi ce je ze importano
     from PIL import Image
@@ -30,24 +42,25 @@ def main():
     from clip_interrogator import Config, Interrogator
 
     def sanitize_for_filename(prompt: str, max_len: int) -> str:
-        name = "".join(c for c in prompt if (c.isalnum() or c in ",._-! "))
-        name = name.strip()[:(max_len-4)]  # extra presledek za extension
+        # Remove all commas and keep only alphanumeric characters and allowed symbols
+        name = "".join(c for c in prompt if (c.isalnum() or c in "._-! "))
+        name = name.strip()[:(max_len-4)]  # Adjust length for extension
         return name
-
+    
     def image_to_prompt(image, ci):
         image = image.convert('RGB')
         return ci.interrogate(image)
 
 
-    with open("config.yaml", 'r') as file:
+    with open(R"C:\Users\umzg\Documents\Projektil\skripte\SD-finetuning\scripts\config.yaml", 'r') as file:
         config_file = yaml.safe_load(file)
 
     caption_model_name = config_file.get('caption_model_name')
     clip_model_name = config_file.get('clip_model_name')
     device = config_file.get('device')
-    source_folder = config_file.get('source_folder')
+    source_folder =  config_file.get('source_folder')
     destination_folder = config_file.get('destination_folder')
-    max_filename_len = config_file.get('max_filename_len')
+    max_filename_len =  config_file.get('max_filename_len')
 
    
     print(f"Caption Model: {caption_model_name}")
@@ -78,28 +91,40 @@ def main():
         print(f"Procesiram sliko: {file}")
         image_path = os.path.join(source_folder, file)
         image = Image.open(image_path).convert('RGB')
-        print("slika odprta in convertana RGB")
+        print("slika odprta in pretvorjena RGB")
         
         prompt = image_to_prompt(image, ci)
         print(f"Prompt generiran: {prompt}")
         
         new_name = sanitize_for_filename(prompt, max_filename_len)
-        print(f"Sanitized ime datoteke: {new_name}")
+        print(f"ocistil ime datoteke: {new_name}")
         
         ext = os.path.splitext(file)[1]
         new_filename = f"{new_name}{ext}"
-        
-        counter = 1
-        while os.path.exists(os.path.join(destination_folder, new_filename)):
-            new_filename = f"{new_name}_{counter}{ext}"
-            counter += 1
-        
         new_path = os.path.join(destination_folder, new_filename)
-        os.rename(image_path, new_path)
-        print(f"preimenovano in premaknjeno v: {new_path}")
+        src = os.path.join(source_folder, file)
+        print(f"new file name: {new_filename}, src:{src}, dst{new_path}")
+       
+        rename_and_move(str(file), new_filename, source_folder, destination_folder)
 
-    print(f"\nPreimenoval in premaknil {len(files)} slik v {destination_folder}")
 
+    # while os.path.exists(new_path):
+    #     print(f"Filename already exists: {new_filename}")
+    #     new_filename = f"{new_name}_{counter}{ext}"
+    #     new_path = os.path.join(destination_folder, new_filename)
+    #     counter += 1
+    #     print(f"Trying new filename: {new_filename}")
+
+    # Attempt to rename and move file
+    print(f"\nRenamed and moved {len(files)} files to {destination_folder}")
+
+
+def rename_and_move(image, new_name, source_folder, destination_folder):
+    src = os.path.join(source_folder, image)
+    dest = os.path.join(destination_folder, new_name)
+    # if not os.path.exists(dest):
+    #     os.makedirs(dest)
+    shutil.copy(src, dest)
 
 
 if __name__ == "__main__":

@@ -23,9 +23,9 @@ def process_images(folder_name, text_prompt, token_name, resolution):
         im_resized.save(os.path.join(output_folder, new_filename))
         
         # Create corresponding .txt file
-        txt_content = f"{text_prompt}, {os.path.basename(png_file).split('.')[0]}, in style of {token_name}"
+        txt_content = f"{text_prompt} {os.path.basename(png_file).split('.')[0]}{token_name}"
         with open(os.path.join(output_folder, new_filename.replace(".png", ".txt")), "w") as txt_file:
             txt_file.write(txt_content)
 
 # Example usage
-process_images(r"SELO_ROTUNDA surove\ucni podatki", "", "almnak", 512)
+process_images(r"C:\Users\umzg\Documents\Projektil\clip_generated_training_set\2_keyword_only_bnha", "", "", 1024)
