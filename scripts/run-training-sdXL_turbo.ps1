@@ -1,8 +1,17 @@
 #pazi da poženesš s  kohya venvom!!!
-Invoke-Expression -Command "cd C:\Users\umzg\Documents\Projektil\kohya_ss\sd-scripts\venv\Scripts"
-Invoke-Expression -Command .\activate
-$baseDir = "C:\Users\umzg\Documents\Projektil\kohya_training_folder"
+cd C:\Users\umzg\Documents\Projektil\kohya_ss\sd-scripts\venv\Scripts
+& .\Activate.ps1
 
+do {
+    $baseDir = Read-Host "vnsesi pot do mape z dataseti"
+
+    if (-not (Test-Path -Path $baseDir)) {
+        Write-Host "vnesli ste napacno pot do mape, poskusite znova." -ForegroundColor Red
+    }
+
+} while (-not (Test-Path -Path $baseDir))
+
+Write-Host "vnesli ste  $baseDir" -ForegroundColor DarkGreen -BackgroundColor White
 $directories = Get-ChildItem -Path $baseDir -Directory
 
 foreach ($dir in $directories) {
@@ -41,7 +50,8 @@ accelerate launch --num_cpu_threads_per_process=1 "C:\Users\umzg\Documents\Proje
 --sample_sampler="ddim" ``
 --cache_latents ``
 --cache_latents_to_disk ``
---no_half_vae ``
+--no_half_vae``
+--enable_xformers_memory_efficient_attention ``
 --caption_extension =".txt"
 "@
 
@@ -51,4 +61,6 @@ accelerate launch --num_cpu_threads_per_process=1 "C:\Users\umzg\Documents\Proje
     Write-Host "------------------------------------"
 }
 
+#added xformers memory efficient attention
+#added 
 Write-Host "Vsi modeli ustvarjeni"
